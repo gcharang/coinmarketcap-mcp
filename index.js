@@ -96,7 +96,7 @@ function getConfig(config) {
 function createServer({ config }) {
   const server = new McpServer({
     name: "CoinMarketCap-MCP",
-    version: "1.3.7",
+    version: "1.3.8",
     description: "A complete MCP for the CoinMarketCap API"
   })
 
@@ -1103,5 +1103,62 @@ await stdioServer.connect(transport)
 
 // Streamable HTTP Server
 const { app } = createStatelessServer(createServer)
-const PORT = process.env.PORT || 3000
-app.listen(PORT)
+const PORT = process.env.PORT || 3793
+
+// Function to check if port is in use and kill the process if needed
+async function checkAndKillPort(port) {
+  try {
+    const { exec } = await import('child_process')
+    const { promisify } = await import('util')
+    const execAsync = promisify(exec)
+    const os = await import('os')
+    const platform = os.platform()
+
+    let pid
+    if (platform === 'win32') {
+      // Windows
+      const { stdout } = await execAsync(`netstat -ano | findstr :${port}`)
+      const lines = stdout.split('\n')
+      for (const line of lines) {
+        if (line.includes(`:${port}`) && line.includes('LISTENING')) {
+          pid = line.trim().split(/\s+/).pop()
+          break
+        }
+      }
+    } else {
+      // Mac/Linux
+      const { stdout } = await execAsync(`lsof -i :${port} -t`)
+      pid = stdout.trim()
+    }
+
+    if (pid) {
+      console.log(`Port ${port} is in use by process ${pid}. Attempting to kill process...`)
+      if (platform === 'win32') {
+        await execAsync(`taskkill /F /PID ${pid}`)
+      } else {
+        await execAsync(`kill -9 ${pid}`)
+      }
+      console.log(`Killed process ${pid} using port ${port}`)
+      // Wait a moment for the port to be fully released
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    }
+  } catch (error) {
+    // If command returns no output, port is not in use
+    if (error.code !== 1) {
+      console.error('Error checking port:', error.message)
+    }
+  }
+}
+
+// Start server with port check
+async function startServer() {
+  await checkAndKillPort(PORT)
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+  })
+}
+
+startServer().catch(error => {
+  console.error('Failed to start server:', error)
+  process.exit(1)
+})
