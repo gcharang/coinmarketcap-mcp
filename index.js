@@ -96,7 +96,7 @@ function getConfig(config) {
 function createServer({ config }) {
   const server = new McpServer({
     name: "CoinMarketCap-MCP",
-    version: "1.3.8",
+    version: "1.3.9",
     description: "A complete MCP for the CoinMarketCap API"
   })
 
@@ -1132,13 +1132,13 @@ async function checkAndKillPort(port) {
     }
 
     if (pid) {
-      console.log(`Port ${port} is in use by process ${pid}. Attempting to kill process...`)
+      //console.log(`Port ${port} is in use by process ${pid}. Attempting to kill process...`)
       if (platform === 'win32') {
         await execAsync(`taskkill /F /PID ${pid}`)
       } else {
         await execAsync(`kill -9 ${pid}`)
       }
-      console.log(`Killed process ${pid} using port ${port}`)
+      //console.log(`Killed process ${pid} using port ${port}`)
       // Wait a moment for the port to be fully released
       await new Promise(resolve => setTimeout(resolve, 1000))
     }
@@ -1153,9 +1153,7 @@ async function checkAndKillPort(port) {
 // Start server with port check
 async function startServer() {
   await checkAndKillPort(PORT)
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-  })
+  app.listen(PORT)
 }
 
 startServer().catch(error => {
