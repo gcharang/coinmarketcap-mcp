@@ -1,7 +1,7 @@
 # CoinMarketCap MCP
 
-[![npm version](https://badge.fury.io/js/@shinzolabs%2Fcoinmarketcap-mcp.svg)](https://badge.fury.io/js/@shinzolabs%2Fcoinmarketcap-mcp)
-[![smithery badge](https://smithery.ai/badge/@shinzo-labs/coinmarketcap-mcp)](https://smithery.ai/server/@shinzo-labs/coinmarketcap-mcp)
+[![npm version](https://badge.fury.io/js/coinmarketcap-mcp.svg)](https://badge.fury.io/js/coinmarketcap-mcp)
+<!-- [![smithery badge](https://smithery.ai/badge/gcharang/coinmarketcap-mcp)](https://smithery.ai/server/gcharang/coinmarketcap-mcp) -->
 
 <p align="center"><img height="512" src=https://github.com/user-attachments/assets/4b2d5f1c-2868-4b9b-8be3-b8ad02b4d331></p>
 
@@ -19,22 +19,22 @@ A [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) i
 If you don't have an API key, first sign up to receive a free `Basic` key [here](https://pro.coinmarketcap.com/signup/?plan=0).
 
 ## Client Configuration
-
+<!--
 There are several options to configure your MCP client with the server. For hosted/remote server setup, use Smithery's CLI with a [Smithery API Key](https://smithery.ai/docs/registry#registry-api). For local installation, use `npx` or build from source. Each of these options is explained below.
 
-### Smithery Remote Server (Recommended)
+ ### Smithery Remote Server (Recommended)
 
 To add a remote server to your MCP client `config.json`, run the following command from [Smithery CLI](https://github.com/smithery-ai/cli?tab=readme-ov-file#smithery-cli--):
 
 ```bash
-npx -y @smithery/cli install @shinzo-labs/coinmarketcap-mcp
+npx -y @smithery/cli install gcharang/coinmarketcap-mcp
 ```
 
 Enter your `COINMARKETCAP_API_KEY` and `SUBSCRIPTION_LEVEL` (see options below) when prompted.
 
 ### Smithery SDK
 
-If you are developing your own agent application, you can use the boilerplate code [here](https://smithery.ai/server/@shinzo-labs/coinmarketcap-mcp/api).
+If you are developing your own agent application, you can use the boilerplate code [here](https://smithery.ai/server/gcharang/coinmarketcap-mcp/api). -->
 
 ### NPX Local Install
 
@@ -45,7 +45,7 @@ To install the server locally with `npx`, add the following to your MCP client `
     "coinmarketcap": {
       "command": "npx",
       "args": [
-        "@shinzolabs/coinmarketcap-mcp"
+        "coinmarketcap-mcp"
       ],
       "env": {
         "COINMARKETCAP_API_KEY": "your-key-here",
@@ -60,7 +60,7 @@ To install the server locally with `npx`, add the following to your MCP client `
 
 1. Download the repo:
 ```bash
-git clone https://github.com/shinzo-labs/coinmarketcap-mcp.git
+git clone https://github.com/gcharang/coinmarketcap-mcp.git
 ```
 
 2. Install packages (inside cloned repo):
